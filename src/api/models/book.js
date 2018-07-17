@@ -1,15 +1,28 @@
 const Sequelize = require('sequelize');
 
 const db = require('../database').getDatabase()
+let Author = require('./author').Author;
 
-const Book = db.define('book', {
+let Book = db.define('book', {
   id: {
     type: Sequelize.INTEGER,
     primaryKey: true,
     autoIncrement: true
   },
-  title: Sequelize.STRING
-})
+  title: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
+});
+
+
+Book.Author = Book.belongsTo(Author, {
+  foreignKey: {
+    allowNull: true,
+  }
+});;
+
+Author.hasMany(Book);
 
 module.exports = {
   Book: Book

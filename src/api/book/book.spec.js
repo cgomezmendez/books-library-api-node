@@ -5,8 +5,10 @@ const chaiHttp = require('chai-http');
 const api = require('../')
 const database = require('../database');
 const Book = require('../models').book.Book;
+const Author = require('../models').author.Author;
 const Sequelize = require('sequelize');
 let config = require('../config').server.config;
+
 
 describe('Book', function () {
   let server = null;
@@ -21,7 +23,7 @@ describe('Book', function () {
     db = database.getDatabase()
     server = api.api.server.listen(testPort);
     return db.sync({
-      force: false
+      force: true
     });
   });
 
@@ -37,41 +39,26 @@ describe('Book', function () {
     before(function () {
       return Book.sync()
         .then(() => {
-          Book.create({
-            title: 'Hello'
-          });
-          Book.create({
-            title: 'Hello'
-          });
-          Book.create({
-            title: 'Hello'
-          });
-          Book.create({
-            title: 'Hello'
-          });
-          Book.create({
-            title: 'Hello'
-          });
-          Book.create({
-            title: 'Hello'
-          });
-          Book.create({
-            title: 'Hello'
-          });
-          Book.create({
-            title: 'Hello'
-          });
-          Book.create({
-            title: 'Hello'
-          });
-          Book.create({
-            title: 'Hello'
-          });
-          Book.create({
-            title: 'Hello'
-          });
-          Book.create({
-            title: 'Hello'
+          Author.create({
+            name: 'John Doe',
+            books: [{
+                title: 'Test-1'
+              },
+              {
+                title: 'Test-2'
+              },
+              {
+                title: 'Test-3'
+              },
+              {
+                title: 'Test-4'
+              },
+              {
+                title: 'Test-5'
+              }
+            ]
+          }, {
+            include: [Book]
           });
         });
     });
