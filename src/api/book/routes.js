@@ -1,4 +1,5 @@
 const Book = require('../models').book.Book;
+const Author = require('../models').author.Author;
 const Router = require('router');
 const config = require('../config').server.config;
 const url = require('whatwg-url');
@@ -20,11 +21,18 @@ function setupRoutes(router) {
     const top = topParam ? topParam < maxBooksPerPage ?
       topParam : maxBooksPerPage : maxBooksPerPage;
     const booksResult = await Book.findAndCountAll({
-      limit: maxBooksPerPage
+      limit: maxBooksPerPage,
+      include: [{
+        model: Author
+      }]
     });
     result.value = booksResult.rows.map((book, _, __) => {
       return {
-        title: book.title
+        title: book.title,
+        author: {
+          id: book.author.id,
+          name: book.author.name
+        }
       }
     });
     if (booksResult.count - skip >= top) {

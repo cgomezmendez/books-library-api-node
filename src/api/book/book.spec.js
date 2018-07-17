@@ -19,7 +19,7 @@ describe('Book', function () {
    * @type {Sequelize.Sequelize}
    */
   let db = null;
-  this.beforeAll(function () {
+  this.beforeAll(() => {
     db = database.getDatabase()
     server = api.api.server.listen(testPort);
     return db.sync({
@@ -27,16 +27,16 @@ describe('Book', function () {
     });
   });
 
-  this.afterAll(function () {
+  this.afterAll(() => {
     if (server) {
       server.close();
     }
   })
 
-  describe('should return a list of books', function () {
+  describe('should return a list of books', () => {
     const basePath = '/v1.0/book';
 
-    before(function () {
+    before(() => {
       return Book.sync()
         .then(() => {
           Author.create({
@@ -63,7 +63,7 @@ describe('Book', function () {
         });
     });
 
-    it('should return a list of books', function (done) {
+    it('should return a list of books', (done) => {
       chai.use(chaiHttp)
         .request(baseUrl)
         .get(basePath)
@@ -79,7 +79,7 @@ describe('Book', function () {
         });
     });
 
-    it('should paginate list of books', function (done) {
+    it('should paginate list of books', (done) => {
       chai.use(chaiHttp)
         .request(baseUrl)
         .get(basePath)
@@ -94,4 +94,4 @@ describe('Book', function () {
         });
     });
   });
-})
+});
