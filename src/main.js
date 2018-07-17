@@ -1,3 +1,4 @@
-const api = require('./api');
+const config = require('./api/config').server.config;
+const api = require('./api').api;
 
-api.api.server.listen(api.config.server.config.port);
+api.server.listen(config.port);

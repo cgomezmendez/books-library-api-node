@@ -22,6 +22,7 @@
     "finalhandler": "^1.1.1",
     "rc": "^1.2.8",
     "sequelize": "^4.38.0",
-    "sqlite3": "^4.0.2"
+    "sqlite3": "^4.0.2",
+    "whatwg-url": "^6.5.0"
   }
 }
