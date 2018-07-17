@@ -1,4 +1,5 @@
 module.exports = {
   api: require('./api'),
-  config: require('./config')
+  config: require('./config'),
+  database: require('./database')
 }
