@@ -23,12 +23,14 @@ function setupRoutes(router) {
       topParam : maxBooksPerPage : maxBooksPerPage;
     const booksResult = await Book.findAndCountAll({
       limit: maxBooksPerPage,
+      offset: skip,
       include: [{
         model: Author
       }]
     });
     result.value = booksResult.rows.map((book, _, __) => {
       return {
+        id: book.id,
         title: book.title,
         author: {
           id: book.author.id,
@@ -36,8 +38,8 @@ function setupRoutes(router) {
         }
       }
     });
-    if (booksResult.count - skip >= top) {
-      let nextPageUrl = config.baseUrl + '?';
+    if (booksResult.count - skip > top) {
+      let nextPageUrl = config.baseUrl + req.url + '?';
       nextPageUrl += 'skip=' + (skip + top);
       if (maxPageSize == maxBooksPerPage) {
         nextPageUrl += '&maxPageSize=' + maxPageSize

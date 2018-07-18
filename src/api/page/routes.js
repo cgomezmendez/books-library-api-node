@@ -24,6 +24,7 @@ function setupRoutes(router) {
       topParam : maxItemsPerPage : maxItemsPerPage;
     const pagesResult = await Page.findAndCountAll({
       limit: maxItemsPerPage,
+      offset: 1,
       where: {
         bookId: bookId
       }
@@ -35,8 +36,8 @@ function setupRoutes(router) {
         text: page.text
       }
     });
-    if (pagesResult.count - skip >= top) {
-      let nextPageUrl = config.baseUrl + '?';
+    if (pagesResult.count - skip > top) {
+      let nextPageUrl = config.baseUrl + req.url + '?';
       nextPageUrl += 'skip=' + (skip + top);
       if (maxPageSize == maxItemsPerPage) {
         nextPageUrl += '&maxPageSize=' + maxPageSize
