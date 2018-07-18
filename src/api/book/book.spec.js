@@ -3,13 +3,12 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 let config = require('../config').server.config;
-config.maxItemsPerPage = 1;
 config.databaseUri = 'sqlite://:memory:';
 
 describe('Book', function () {
   let server = null;
   const testPort = 5590;
-  config.maxItemsPerPage = 5;
+  config.maxItemsPerPage = 1;
   const baseUrl = 'localhost:' + testPort;
   /**
    * @type {Sequelize.Sequelize}

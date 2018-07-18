@@ -4,6 +4,7 @@ const Author = require('../models').author.Author;
 const Router = require('router');
 let config = require('../config').server.config;
 const url = require('whatwg-url');
+const util = require('../util');
 
 /**
  * 
@@ -11,19 +12,11 @@ const url = require('whatwg-url');
  */
 function setupRoutes(router) {
   router.get('/v1.0/book', async (req, res) => {
+    util.pagination(req, res);
     result = {};
-    let params = new url.URL(config.baseUrl + req.url).searchParams;
-    const skipParam = Number.parseInt(params.get('skip'));
-    const skip = skipParam ? skipParam : 0;
-    const topParam = Number.parseInt(params.get('top'));
-    const maxPageSize = Number.parseInt(params.get('maxPageSize'));
-    const maxBooksPerPage = maxPageSize < config.maxItemsPerPage ?
-      maxPageSize : config.maxItemsPerPage;
-    const top = topParam ? topParam < maxBooksPerPage ?
-      topParam : maxBooksPerPage : maxBooksPerPage;
     const booksResult = await Book.findAndCountAll({
-      limit: maxBooksPerPage,
-      offset: skip,
+      limit: req.top,
+      offset: req.skip,
       include: [{
         model: Author
       }]
@@ -38,11 +31,11 @@ function setupRoutes(router) {
         }
       }
     });
-    if (booksResult.count - skip > top) {
-      let nextPageUrl = config.baseUrl + req.url + '?';
-      nextPageUrl += 'skip=' + (skip + top);
-      if (maxPageSize == maxBooksPerPage) {
-        nextPageUrl += '&maxPageSize=' + maxPageSize
+    if (booksResult.count - req.skip > req.top) {
+      let nextPageUrl = config.baseUrl + req.url.split('?')[0] + '?';
+      nextPageUrl += 'skip=' + (req.skip + req.top);
+      if (req.maxPageSize) {
+        nextPageUrl += '&maxPageSize=' + req.maxPageSize
       }
       result.nextLink = nextPageUrl.toString();
     }
