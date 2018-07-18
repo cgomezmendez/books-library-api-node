@@ -9,6 +9,14 @@ let Page = db.define('page', {
     primaryKey: true,
     autoIncrement: true
   },
+  text: {
+    type: Sequelize.TEXT,
+    allowNull: false
+  },
+  html: {
+    type: Sequelize.TEXT,
+    allowNull: true
+  }
 })
 
 Page.Book = Page.belongsTo(Book, {
@@ -16,6 +24,8 @@ Page.Book = Page.belongsTo(Book, {
     allowNull: false
   }
 });
+
+Book.Page = Book.hasMany(Page);
 
 module.exports = {
   Page: Page

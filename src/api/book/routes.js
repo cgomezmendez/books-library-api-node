@@ -1,4 +1,5 @@
 const Book = require('../models').book.Book;
+const Page = require('../models').page.Page;
 const Author = require('../models').author.Author;
 const Router = require('router');
 const config = require('../config').server.config;
@@ -53,7 +54,11 @@ function setupRoutes(router) {
       Book.findById(bookId, {
         include: [{
           model: Author
-        }]
+        }, {
+          model: Page
+        }],
+        subQuery: false,
+        limit: config.maxItemsPerPage
       }).then((book) => {
         const bookResult = {
           id: book.id,
@@ -61,13 +66,19 @@ function setupRoutes(router) {
           author: {
             id: book.author.id,
             name: book.author.name
-          }
+          },
+          pages: book.pages.map((page, _, __) => {
+            return {
+              id: page.id,
+              text: page.text,
+              html: page.html
+            }
+          })
         }
         res.setHeader('Content-Type', 'application/json; charset=utf-8');
         res.end(JSON.stringify(bookResult));
       });
     });
-  console.log('testing');
 }
 
 module.exports = {

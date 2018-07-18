@@ -22,7 +22,7 @@ Book.Author = Book.belongsTo(Author, {
   }
 });;
 
-Author.hasMany(Book);
+Author.Book = Author.hasMany(Book);
 
 module.exports = {
   Book: Book
