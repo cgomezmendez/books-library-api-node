@@ -1,4 +1,5 @@
 const Sequelize = require('sequelize');
+let config = require('../config').server.config;
 
 
 let database = null;
@@ -9,11 +10,9 @@ let database = null;
  */
 function getDatabase() {
   if (database == null) {
-    database = new Sequelize('books', null,
-      null, {
-        dialect: 'sqlite',
-        storage: './db.sqlite'
-      });
+    database = new Sequelize(config.databaseUri, {
+      logging: config.debugDatabase
+    });
   }
   return database;
 }

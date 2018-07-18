@@ -1,7 +1,7 @@
 const Router = require('router');
 const http = require('http');
 const finalHandler = require('finalhandler');
-const config = require('./config');
+let config = require('./config');
 const book = require('./book');
 const page = require('./page');
 

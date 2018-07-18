@@ -2,23 +2,23 @@
 
 const chai = require('chai');
 const chaiHttp = require('chai-http');
-const api = require('../');
-const database = require('../database');
-const Book = require('../models').book.Book;
-const Author = require('../models').author.Author;
-const Sequelize = require('sequelize');
 let config = require('../config').server.config;
+config.maxItemsPerPage = 1;
+config.databaseUri = 'sqlite://:memory:';
 
 describe('Page', function () {
   let server = null;
   const testPort = 5590;
-  config.maxItemsPerPage = 1;
   const baseUrl = 'localhost:' + testPort;
   /**
    * @type {Sequelize.Sequelize}
    */
   let db = null;
-  this.beforeAll(async (done) => {
+  this.beforeAll(async () => {
+    const api = require('../');
+    const database = require('../database');
+    const Book = require('../models').book.Book;
+    const Author = require('../models').author.Author;
     db = database.getDatabase();
     server = api.api.server.listen(testPort);
     await db.sync({
@@ -78,7 +78,6 @@ describe('Page', function () {
         include: [Book.Page]
       }]
     });
-    done();
   });
 
   this.afterAll(() => {

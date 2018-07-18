@@ -2,7 +2,7 @@ const Book = require('../models').book.Book;
 const Page = require('../models').page.Page;
 const Author = require('../models').author.Author;
 const Router = require('router');
-const config = require('../config').server.config;
+let config = require('../config').server.config;
 const url = require('whatwg-url');
 
 /**
