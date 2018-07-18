@@ -32,12 +32,7 @@ function setupRoutes(router) {
       }
     });
     if (booksResult.count - req.skip > req.top) {
-      let nextPageUrl = config.baseUrl + req.url.split('?')[0] + '?';
-      nextPageUrl += 'skip=' + (req.skip + req.top);
-      if (req.maxPageSize) {
-        nextPageUrl += '&maxPageSize=' + req.maxPageSize
-      }
-      result.nextLink = nextPageUrl.toString();
+      result.nextLink = util.nextPage(req);
     }
     res.setHeader('Content-Type', 'application/json; charset=utf-8');
     res.end(JSON.stringify(result));

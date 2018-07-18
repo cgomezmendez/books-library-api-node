@@ -30,11 +30,21 @@ function pagination(req) {
   req.skip = skip;
 }
 
+function nextPage(req) {
+  let nextPageUrl = config.baseUrl + req.url.split('?')[0] + '?';
+  nextPageUrl += 'skip=' + (req.skip + req.top);
+  if (req.maxPageSize) {
+    nextPageUrl += '&maxPageSize=' + req.maxPageSize
+  }
+  return nextPageUrl.toString();
+}
+
 function getNumberParamOrDefault(params, key, defaultValue) {
   const value = Number.parseInt(params.get(key));
   return Number.isInteger(value) ? value : defaultValue;
 }
 
 module.exports = {
-  pagination: pagination
+  pagination: pagination,
+  nextPage: nextPage
 }

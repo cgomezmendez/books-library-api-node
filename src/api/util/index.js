@@ -1,3 +1,4 @@
 module.exports = {
-  pagination: require('./util').pagination
+  pagination: require('./util').pagination,
+  nextPage: require('./util').nextPage
 }
