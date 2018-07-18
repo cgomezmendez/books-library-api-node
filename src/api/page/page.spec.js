@@ -91,8 +91,7 @@ describe('Page', function () {
     const basePath = '/v1.0/book/1/page';
 
     it('should return pages of book given book id', (done) => {
-      chai
-        .use(chaiHttp)
+      chai.use(chaiHttp)
         .request(baseUrl)
         .get(basePath)
         .end((err, res) => {
@@ -102,10 +101,29 @@ describe('Page', function () {
           chai.expect(res.body).to.have.property('value');
           if (res.body.value) {
             chai.expect(res.body.value).to.be.an('array');
-            chai.expect(res.body.value).to.be.of.length(1);
+            chai.expect(res.body.value).to.be.of.length(config.maxItemsPerPage);
           }
           done();
         });
     });
   });
+
+  describe('should return specific page', () => {
+    const basePath = '/v1.0/book/1/page/1';
+
+    it('should return pages of book given book id', (done) => {
+      chai
+        .use(chaiHttp)
+        .request(baseUrl)
+        .get(basePath)
+        .end((err, res) => {
+          chai.expect(res).to.have.status(200);
+          chai.expect(res).to.be.json;
+          chai.expect(res).to.be.a('object');
+          chai.expect(res.body).to.have.property('text');
+          chai.expect(res.body).to.have.property('html');
+          done();
+        });
+    });
+  })
 });

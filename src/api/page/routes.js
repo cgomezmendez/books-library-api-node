@@ -47,6 +47,20 @@ function setupRoutes(router) {
     res.setHeader('Content-Type', 'application/json; charset=utf-8');
     res.end(JSON.stringify(result));
   });
+
+  router.route('/v1.0/book/:bookId/page/:pageId')
+    .get((req, res) => {
+      const pageId = req.params.pageId;
+      Page.findById(pageId).then((page) => {
+        const pageResult = {
+          id: page.id,
+          text: page.text,
+          html: page.html
+        }
+        res.setHeader('Content-Type', 'application/json; charset=utf-8');
+        res.end(JSON.stringify(pageResult));
+      });
+    });
 }
 
 module.exports = {
