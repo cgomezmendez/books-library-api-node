@@ -9,7 +9,7 @@ const url = require('whatwg-url');
  * @param {Router} router 
  */
 function setupRoutes(router) {
-  router.get('/v1.0/book', async function (req, res) {
+  router.get('/v1.0/book', async (req, res) => {
     result = {};
     let params = new url.URL(config.baseUrl + req.url).searchParams;
     const skipParam = Number.parseInt(params.get('skip'));
@@ -46,6 +46,28 @@ function setupRoutes(router) {
     res.setHeader('Content-Type', 'application/json; charset=utf-8');
     res.end(JSON.stringify(result));
   });
+
+  router.route('/v1.0/book/:bookId')
+    .get((req, res) => {
+      const bookId = req.params.bookId;
+      Book.findById(bookId, {
+        include: [{
+          model: Author
+        }]
+      }).then((book) => {
+        const bookResult = {
+          id: book.id,
+          title: book.title,
+          author: {
+            id: book.author.id,
+            name: book.author.name
+          }
+        }
+        res.setHeader('Content-Type', 'application/json; charset=utf-8');
+        res.end(JSON.stringify(bookResult));
+      });
+    });
+  console.log('testing');
 }
 
 module.exports = {

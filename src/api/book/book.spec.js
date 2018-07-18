@@ -113,6 +113,7 @@ describe("Book", function() {
           chai.expect(res.body).to.have.property("id");
           chai.expect(res.body).to.have.property("title");
           chai.expect(res.body).to.have.property("author");
+          done(); 
         });
     });
   });
