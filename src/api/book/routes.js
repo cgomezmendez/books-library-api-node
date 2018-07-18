@@ -34,7 +34,7 @@ function setupRoutes(router) {
     if (booksResult.count - req.skip > req.top) {
       result.nextLink = util.nextPage(req);
     }
-    res.setHeader('Content-Type', 'application/json; charset=utf-8');
+    res.setHeader('Content-Type', util.ContentType.getContentTypeString(util.ContentType.json));
     res.end(JSON.stringify(result));
   });
 
@@ -65,7 +65,7 @@ function setupRoutes(router) {
             }
           })
         }
-        res.setHeader('Content-Type', 'application/json; charset=utf-8');
+        res.setHeader('Content-Type', util.ContentType.getContentTypeString(util.ContentType.json));
         res.end(JSON.stringify(bookResult));
       });
     });

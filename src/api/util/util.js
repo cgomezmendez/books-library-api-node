@@ -44,7 +44,17 @@ function getNumberParamOrDefault(params, key, defaultValue) {
   return Number.isInteger(value) ? value : defaultValue;
 }
 
+class ContentType {}
+
+ContentType.text = 'text/plain';
+ContentType.json = 'application/json';
+ContentType.html = 'text/html';
+ContentType.getContentTypeString = (contentType) => {
+  return contentType + '; charset=utf-8';
+}
+
 module.exports = {
   pagination: pagination,
-  nextPage: nextPage
+  nextPage: nextPage,
+  ContentType: ContentType
 }

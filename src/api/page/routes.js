@@ -32,7 +32,7 @@ function setupRoutes(router) {
     if (pagesResult.count - req.skip > req.top) {
       result.nextLink = util.nextPage(req);
     }
-    res.setHeader('Content-Type', 'application/json; charset=utf-8');
+    res.setHeader('Content-Type', util.ContentType.getContentTypeString(util.ContentType.json));
     res.end(JSON.stringify(result));
   });
 
@@ -45,7 +45,7 @@ function setupRoutes(router) {
           text: page.text,
           html: page.html
         }
-        res.setHeader('Content-Type', 'application/json; charset=utf-8');
+        res.setHeader('Content-Type', util.ContentType.getContentTypeString(util.ContentType.json));
         res.end(JSON.stringify(pageResult));
       });
     });
@@ -60,18 +60,18 @@ function setupRoutes(router) {
         switch (format) {
           case 'html':
             response = page.html;
-            contentType = 'text/html';
+            contentType = util.ContentType.getContentTypeString(util.ContentType.html);
             break;
           case 'text':
             response = page.text;
-            contentType = 'text/plain';
+            contentType = util.ContentType.getContentTypeString(util.ContentType.text);
             break;
           default:
             response = page.text;
-            contentType = 'text/plain';
+            contentType = util.ContentType.getContentTypeString(util.ContentType.text);
             break;
         }
-        res.setHeader('Content-Type', contentType + '; charset=utf-8');
+        res.setHeader('Content-Type', contentType);
         res.end(response);
       });
     });
