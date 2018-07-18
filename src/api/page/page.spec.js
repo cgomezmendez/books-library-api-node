@@ -9,7 +9,7 @@ const Author = require('../models').author.Author;
 const Sequelize = require('sequelize');
 let config = require('../config').server.config;
 
-describe('Book', function () {
+describe('Page', function () {
   let server = null;
   const testPort = 5590;
   config.maxItemsPerPage = 5;
@@ -28,9 +28,9 @@ describe('Book', function () {
         Author.create({
           name: 'John Doe',
           books: [{
-              title: 'Test-1',
-              pages: [{
-                  text: `To Sherlock Holmes she is always THE woman. I have seldom heard
+            title: 'Test-1',
+            pages: [{
+                text: `To Sherlock Holmes she is always THE woman. I have seldom heard
                 him mention her under any other name. In his eyes she eclipses
                 and predominates the whole of her sex. It was not that he felt
                 any emotion akin to love for Irene Adler. All emotions, and that
@@ -49,9 +49,9 @@ describe('Book', function () {
                 nature such as his. And yet there was but one woman to him, and
                 that woman was the late Irene Adler, of dubious and questionable
                 memory.`
-                },
-                {
-                  text: `To Sherlock Holmes she is always THE woman. I have seldom heard
+              },
+              {
+                text: `To Sherlock Holmes she is always THE woman. I have seldom heard
                 him mention her under any other name. In his eyes she eclipses
                 and predominates the whole of her sex. It was not that he felt
                 any emotion akin to love for Irene Adler. All emotions, and that
@@ -70,9 +70,9 @@ describe('Book', function () {
                 nature such as his. And yet there was but one woman to him, and
                 that woman was the late Irene Adler, of dubious and questionable
                 memory.`
-                },
-                {
-                  text: `To Sherlock Holmes she is always THE woman. I have seldom heard
+              },
+              {
+                text: `To Sherlock Holmes she is always THE woman. I have seldom heard
                 him mention her under any other name. In his eyes she eclipses
                 and predominates the whole of her sex. It was not that he felt
                 any emotion akin to love for Irene Adler. All emotions, and that
@@ -91,9 +91,9 @@ describe('Book', function () {
                 nature such as his. And yet there was but one woman to him, and
                 that woman was the late Irene Adler, of dubious and questionable
                 memory.`
-                },
-                {
-                  text: `To Sherlock Holmes she is always THE woman. I have seldom heard
+              },
+              {
+                text: `To Sherlock Holmes she is always THE woman. I have seldom heard
                 him mention her under any other name. In his eyes she eclipses
                 and predominates the whole of her sex. It was not that he felt
                 any emotion akin to love for Irene Adler. All emotions, and that
@@ -112,9 +112,9 @@ describe('Book', function () {
                 nature such as his. And yet there was but one woman to him, and
                 that woman was the late Irene Adler, of dubious and questionable
                 memory.`
-                },
-                {
-                  text: `To Sherlock Holmes she is always THE woman. I have seldom heard
+              },
+              {
+                text: `To Sherlock Holmes she is always THE woman. I have seldom heard
                 him mention her under any other name. In his eyes she eclipses
                 and predominates the whole of her sex. It was not that he felt
                 any emotion akin to love for Irene Adler. All emotions, and that
@@ -133,9 +133,9 @@ describe('Book', function () {
                 nature such as his. And yet there was but one woman to him, and
                 that woman was the late Irene Adler, of dubious and questionable
                 memory.`
-                },
-                {
-                  text: `To Sherlock Holmes she is always THE woman. I have seldom heard
+              },
+              {
+                text: `To Sherlock Holmes she is always THE woman. I have seldom heard
                 him mention her under any other name. In his eyes she eclipses
                 and predominates the whole of her sex. It was not that he felt
                 any emotion akin to love for Irene Adler. All emotions, and that
@@ -154,9 +154,9 @@ describe('Book', function () {
                 nature such as his. And yet there was but one woman to him, and
                 that woman was the late Irene Adler, of dubious and questionable
                 memory.`
-                },
-                {
-                  text: `To Sherlock Holmes she is always THE woman. I have seldom heard
+              },
+              {
+                text: `To Sherlock Holmes she is always THE woman. I have seldom heard
                 him mention her under any other name. In his eyes she eclipses
                 and predominates the whole of her sex. It was not that he felt
                 any emotion akin to love for Irene Adler. All emotions, and that
@@ -175,9 +175,9 @@ describe('Book', function () {
                 nature such as his. And yet there was but one woman to him, and
                 that woman was the late Irene Adler, of dubious and questionable
                 memory.`
-                },
-                {
-                  text: `To Sherlock Holmes she is always THE woman. I have seldom heard
+              },
+              {
+                text: `To Sherlock Holmes she is always THE woman. I have seldom heard
                 him mention her under any other name. In his eyes she eclipses
                 and predominates the whole of her sex. It was not that he felt
                 any emotion akin to love for Irene Adler. All emotions, and that
@@ -196,9 +196,9 @@ describe('Book', function () {
                 nature such as his. And yet there was but one woman to him, and
                 that woman was the late Irene Adler, of dubious and questionable
                 memory.`
-                },
-                {
-                  text: `To Sherlock Holmes she is always THE woman. I have seldom heard
+              },
+              {
+                text: `To Sherlock Holmes she is always THE woman. I have seldom heard
                 him mention her under any other name. In his eyes she eclipses
                 and predominates the whole of her sex. It was not that he felt
                 any emotion akin to love for Irene Adler. All emotions, and that
@@ -217,9 +217,9 @@ describe('Book', function () {
                 nature such as his. And yet there was but one woman to him, and
                 that woman was the late Irene Adler, of dubious and questionable
                 memory.`
-                },
-                {
-                  text: `To Sherlock Holmes she is always THE woman. I have seldom heard
+              },
+              {
+                text: `To Sherlock Holmes she is always THE woman. I have seldom heard
                 him mention her under any other name. In his eyes she eclipses
                 and predominates the whole of her sex. It was not that he felt
                 any emotion akin to love for Irene Adler. All emotions, and that
@@ -238,22 +238,9 @@ describe('Book', function () {
                 nature such as his. And yet there was but one woman to him, and
                 that woman was the late Irene Adler, of dubious and questionable
                 memory.`
-                }
-              ]
-            },
-            {
-              title: 'Test-2'
-            },
-            {
-              title: 'Test-3'
-            },
-            {
-              title: 'Test-4'
-            },
-            {
-              title: 'Test-5'
-            }
-          ]
+              }
+            ]
+          }]
         }, {
           include: [{
             association: Author.Book,
@@ -270,10 +257,10 @@ describe('Book', function () {
     }
   });
 
-  describe('should return a list of books', () => {
-    const basePath = '/v1.0/book';
+  describe('should return list of pages of a book', () => {
+    const basePath = '/v1.0/book/1/page';
 
-    it('should return a list of books', done => {
+    it('should return pages of book given book id', (done) => {
       chai
         .use(chaiHttp)
         .request(baseUrl)
@@ -284,46 +271,7 @@ describe('Book', function () {
           chai.expect(res).to.be.a('object');
           chai.expect(res.body).to.have.property('value');
           if (res.body.value) {
-            chai.expect(res.body.value).to.be.a('array');
-          }
-          done();
-        });
-    });
-
-    it('should paginate list of books', done => {
-      chai
-        .use(chaiHttp)
-        .request(baseUrl)
-        .get(basePath)
-        .end((err, res) => {
-          chai.expect(res.body.value).to.be.of.length(config.maxItemsPerPage);
-          chai.expect(res.body).to.have.property('nextLink');
-          if (res.body.nextLink) {
-            chai.expect(res.body.nextLink).to.be.a('string');
-            chai.expect(res.body.nextLink).to.contains('?skip=' + config.maxItemsPerPage);
-          }
-          done();
-        });
-    });
-  });
-
-  describe('should view single book', done => {
-    const basePath = '/v1.0/book/1';
-
-    it('should return single view', done => {
-      chai
-        .use(chaiHttp)
-        .request(baseUrl)
-        .get(basePath)
-        .end((err, res) => {
-          chai.expect(res).to.have.status(200);
-          chai.expect(res).to.be.json;
-          chai.expect(res.body).to.have.property('id');
-          chai.expect(res.body).to.have.property('title');
-          chai.expect(res.body).to.have.property('author');
-          chai.expect(res.body).to.have.property('pages');
-          if (res.body.pages) {
-            chai.expect(res.body.pages).to.be.a('array');
+            chai.expect(res.body.value).to.be.an('array');
           }
           done();
         });
