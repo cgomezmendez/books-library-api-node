@@ -125,5 +125,21 @@ describe('Page', function () {
           done();
         });
     });
-  })
+  });
+
+  describe('should return page content', () => {
+    const basePath = '/v1.0/book/1/page/1/html';
+
+    it('should return html page content', (done) => {
+      chai
+        .use(chaiHttp)
+        .request(baseUrl)
+        .get(basePath)
+        .end((err, res) => {
+          chai.expect(res).to.have.status(200);
+          chai.expect(res).to.be.html;
+          done();
+        });
+    });
+  });
 });
