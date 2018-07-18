@@ -17,7 +17,7 @@ function setupRoutes(router) {
     const bookId = req.params.bookId;
     const pagesResult = await Page.findAndCountAll({
       limit: req.top,
-      offset: 1,
+      offset: req.skip,
       where: {
         bookId: bookId
       }
