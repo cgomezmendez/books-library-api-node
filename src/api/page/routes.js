@@ -62,12 +62,29 @@ function setupRoutes(router) {
       });
     });
 
-  router.route('/v1.0/book/:bookId/page/:pageId/html')
+  router.route('/v1.0/book/:bookId/page/:pageId/:format')
     .get((req, res) => {
       const pageId = req.params.pageId;
+      const format = req.params.format;
       Page.findById(pageId).then((page) => {
-        res.setHeader('Content-Type', 'text/html; charset=utf-8');
-        res.end(page.html);
+        let response = null;
+        let contentType = null;
+        switch (format) {
+          case 'html':
+            response = page.html;
+            contentType = 'text/html';
+            break;
+          case 'text':
+            response = page.text;
+            contentType = 'text/plain';
+            break;
+          default:
+            response = page.text;
+            contentType = 'text/plain';
+            break;
+        }
+        res.setHeader('Content-Type', contentType + '; charset=utf-8');
+        res.end(response);
       });
     });
 }
