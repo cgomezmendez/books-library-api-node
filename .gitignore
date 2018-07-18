@@ -4,3 +4,5 @@ node_modules/
 yarn.lock
 db.sqlite
 db.sqlite-journal
+test.html
+test.text
