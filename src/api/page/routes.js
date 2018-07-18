@@ -61,6 +61,15 @@ function setupRoutes(router) {
         res.end(JSON.stringify(pageResult));
       });
     });
+
+  router.route('/v1.0/book/:bookId/page/:pageId/html')
+    .get((req, res) => {
+      const pageId = req.params.pageId;
+      Page.findById(pageId).then((page) => {
+        res.setHeader('Content-Type', 'text/html; charset=utf-8');
+        res.end(page.html);
+      });
+    });
 }
 
 module.exports = {
