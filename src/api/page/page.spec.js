@@ -128,16 +128,28 @@ describe('Page', function () {
   });
 
   describe('should return page content', () => {
-    const basePath = '/v1.0/book/1/page/1/html';
+    const basePath = '/v1.0/book/1/page/1';
 
     it('should return html page content', (done) => {
       chai
         .use(chaiHttp)
         .request(baseUrl)
-        .get(basePath)
+        .get(basePath + '/html')
         .end((err, res) => {
           chai.expect(res).to.have.status(200);
           chai.expect(res).to.be.html;
+          done();
+        });
+    });
+
+    it('should return plain text page content', (done) => {
+      chai
+        .use(chaiHttp)
+        .request(baseUrl)
+        .get(basePath + '/text')
+        .end((err, res) => {
+          chai.expect(res).to.have.status(200);
+          chai.expect(res).to.be.text;
           done();
         });
     });
