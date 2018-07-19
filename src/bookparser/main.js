@@ -84,20 +84,6 @@ function getBookModel(nextBookId, bookName, currentBooks, author) {
 function getPagesModels(html, text, book) {
   htmlPages = parser.getHtmlPages(html);
   textPages = parser.getTextPages(text);
-  // if (book.title === 'The War of the Worlds') {
-  //   console.log(htmlPages.length);
-  //   console.log(textPages.length);
-  //   let htmlOut = '';
-  //   let textOut = '';
-  //   for (let index = 0; index < htmlPages.length; index++) {
-  //     textOut +=`\n--------------  index = ${index}  -----------`;
-  //     htmlOut +=`</br>--------------  index = ${index}  -----------`;
-  //     htmlOut += htmlPages[index];
-  //     textOut += textPages[index];
-  //   }
-  //   fs.writeFileSync(basePath + '/../test.html', htmlOut);
-  //   fs.writeFileSync(basePath + '/../test.txt', textOut);
-  // }
   let pagesModels = [];
   for (let i = 0; i < htmlPages.length; i++) {
     pagesModels.push({
