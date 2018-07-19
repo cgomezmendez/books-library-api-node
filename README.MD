@@ -19,11 +19,11 @@ Note: in a future we want to add support to more reading formats and be able to 
 
 - edit config/database.json to reflect your database settings (by default sqlite ./db.sqlite).
 - edit src/api/config/server.js to reflect your pagination, host port and url settings
-- run yarn install (to install all dependencies)
-- run yarn migrate to run migrations
-- run yarn seed to run all seeds
-- run yarn test to run all unit tests (optional)
-- run yarn start-dev to start the server
+- run `yarn install` (to install all dependencies)
+- run `yarn migrate` to run migrations
+- run `yarn seed` to run all seeds
+- run `yarn test` to run all unit tests (optional)
+- run `yarn start-dev` to start the server
 
 ## API
 
