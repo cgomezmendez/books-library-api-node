@@ -18,8 +18,8 @@
   "scripts": {
     "start-dev": "nodemon src/main.js",
     "test": "cross-env NODE_ENV=test mocha --recursive \"src/api/**/*.spec.js\"",
-    "migrate": "sequelize db:migrate",
-    "seed": "sequelize db:seed"
+    "migrate": "sequelize db:migrate:all",
+    "seed": "sequelize db:seed:all"
   },
   "dependencies": {
     "finalhandler": "^1.1.1",
