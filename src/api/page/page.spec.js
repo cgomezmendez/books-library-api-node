@@ -29,6 +29,7 @@ describe('Page', function () {
       books: [{
         title: 'Test-1',
         pages: [{
+            number: 1,
             text: `To Sherlock Holmes she is always THE woman. I have seldom heard
             him mention her under any other name. In his eyes she eclipses
             and predominates the whole of her sex. It was not that he felt
@@ -50,6 +51,7 @@ describe('Page', function () {
             memory.`
           },
           {
+            number: 1,
             text: `To Sherlock Holmes she is always THE woman. I have seldom heard
             him mention her under any other name. In his eyes she eclipses
             and predominates the whole of her sex. It was not that he felt

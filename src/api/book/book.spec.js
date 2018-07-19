@@ -120,7 +120,6 @@ describe('Book', function () {
           chai.expect(res.body).to.have.property('id');
           chai.expect(res.body).to.have.property('title');
           chai.expect(res.body).to.have.property('author');
-          chai.expect(res.body).to.have.property('pages');
           if (res.body.pages) {
             chai.expect(res.body.pages).to.be.a('array');
           }
