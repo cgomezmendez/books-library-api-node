@@ -3,63 +3,55 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 let config = require('../config').server.config;
-config.databaseUri = 'sqlite://:memory:';
+let database = require('../../db/models').sequelize;
+let models = require('../../db/models');
+const sequelize = require('sequelize');
 
 describe('Book', function () {
-  let server = null;
   const testPort = 5590;
+  const server = require('../').api.server;
   config.maxItemsPerPage = 1;
   const baseUrl = 'localhost:' + testPort;
-  /**
-   * @type {Sequelize.Sequelize}
-   */
-  let db = null;
-  this.beforeAll(async () => {
-    const server = require('../').api.server;
-    const database = require('../database');
-    const Book = require('../models').book.Book;
-    const Author = require('../models').author.Author;
-    db = database.getDatabase();
+
+  this.beforeAll(() => {
+    /**
+     * @type {sequelize.Model}
+     */
+    const Book = models.Book;
+    /**
+     * @type {sequelize.Model}
+     */
+    let Author = models.Author;
     server.listen(testPort);
-    return db.sync({
-      force: true
-    }).then(() => {
-      Author.create({
-        name: 'John Doe',
-        books: [{
+    return new Promise((resolve, reject) => {
+      database.sync({
+        force: true
+      }).then(() => {
+        Author.create({
+          name: 'John Doe',
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          Books: [{
             title: 'Test-1',
-            pages: [{
-              text: `To Sherlock Holmes she is always THE woman. I have seldom heard
-              him mention her under any other name. In his eyes she eclipses
-              and predominates the whole of her sex. It was not that he felt
-              any emotion akin to love for Irene Adler. All emotions, and that
-              one particularly, were abhorrent to his cold, precise but
-              admirably balanced mind. He was, I take it, the most perfect
-              reasoning and observing machine that the world has seen, but as a
-              lover he would have placed himself in a false position. He never
-              spoke of the softer passions, save with a gibe and a sneer. They
-              were admirable things for the observer--excellent for drawing the
-              veil from men's motives and actions. But for the trained reasoner
-              to admit such intrusions into his own delicate and finely
-              adjusted temperament was to introduce a distracting factor which
-              might throw a doubt upon all his mental results. Grit in a
-              sensitive instrument, or a crack in one of his own high-power
-              lenses, would not be more disturbing than a strong emotion in a
-              nature such as his. And yet there was but one woman to him, and
-              that woman was the late Irene Adler, of dubious and questionable
-              memory.`
-            }]
+            authorId: 1,
+            createdAt: new Date(),
+            updatedAt: new Date(),
           },
           {
-            title: 'Test-2'
-          }
-        ]
-      }, {
-        include: [{
-          association: Author.Book,
-          include: [Book.Page]
-        }]
-      });
+            title: 'Test-2',
+            authorId: 1,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+          }]
+        }, {
+          include: [{
+            association: Author.Book,
+            include: [Book.Page]
+          }]
+        }).then(() => {
+          resolve();
+        });
+      })
     });
   });
 

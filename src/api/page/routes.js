@@ -1,10 +1,7 @@
-const Book = require('../models').book.Book;
-const Page = require('../models').page.Page;
-const Author = require('../models').author.Author;
 const Router = require('router');
-let config = require('../config').server.config;
-const url = require('whatwg-url');
 const util = require('../util');
+const dataSource = require('../dataSource');
+
 
 /**
  * 
@@ -15,17 +12,8 @@ function setupRoutes(router) {
     util.pagination(req);
     result = {};
     const bookId = req.params.bookId;
-    const pagesResult = await Page.findAndCountAll({
-      limit: req.top,
-      offset: req.skip,
-      where: {
-        bookId: bookId
-      },
-      order: [
-        'number'
-      ]
-    });
-    result.value = pagesResult.rows.map((page, _, __) => {
+    const pagesResult = await dataSource.getPages(req.top, req.skip, bookId);
+    result.value = pagesResult.map((page, _, __) => {
       return {
         id: page.id,
         html: page.html,
@@ -44,12 +32,7 @@ function setupRoutes(router) {
     .get((req, res) => {
       const bookId = req.params.bookId;
       const pageId = req.params.pageId;
-      Page.findOne({
-        where: {
-          bookId: bookId,
-          id: pageId
-        }
-      }).then((page) => {
+      dataSource.getPageByIdAndBookId(bookId, pageId).then((page) => {
         if (!page) {
           const error = {
             error: {
@@ -73,9 +56,10 @@ function setupRoutes(router) {
 
   router.route('/v1.0/book/:bookId/page/:pageId/:format')
     .get((req, res) => {
+      const bookId = req.params.bookId;
       const pageId = req.params.pageId;
       const format = req.params.format;
-      Page.findById(pageId).then((page) => {
+      dataSource.getPageByIdAndBookId(bookId, pageId).then((page) => {
         if (!page) {
           const error = {
             error: {
