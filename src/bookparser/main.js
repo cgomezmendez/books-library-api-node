@@ -3,8 +3,9 @@ const stripHeaders = require('./stripHeaders');
 const parser = require('./parser');
 
 const basePath = __dirname + '/../../sampleData/';
-const authorsFile = basePath + '/../sampleDataJson/authors.json';
-const booksFile = basePath + '/../sampleDataJson/books.json';
+const jsonBasePath = basePath + '/../sampleDataJson/';
+const authorsFile = jsonBasePath + 'authors.json';
+const booksFile = jsonBasePath + 'books.json';
 
 function main() {
   const authorsNames = fs.readdirSync(basePath);
@@ -19,36 +20,20 @@ function main() {
       let currentBooks = JSON.parse(fs.readFileSync(booksFile).toString());
       let nextBookId = getNextId(currentBooks);
 
-      let bookModel = currentBooks.find((existentBook) => {
-        return bookName == existentBook.title && author.id == existentBook.id;
-      });
-
-      if (!bookModel) {
-        bookModel = {
-          id: nextBookId,
-          title: bookName,
-          authorId: author.id
-        };
-        currentBooks.push(bookModel);
-        nextAuthorId += 1;
-        fs.writeFileSync(booksFile, JSON.stringify(currentBooks));
-      }
+      let bookModel = getBookModel(nextBookId, bookName, currentBooks, author);
 
       const bookPath = basePath + authorName + '/' + bookName + '/';
       text = stripHeaders.stripHeaders(fs.readFileSync(bookPath + 'book.txt').toString());
       html = stripHeaders.stripHeaders(fs.readFileSync(bookPath + 'book.html').toString());
-      htmlPages = parser.getHtmlPages(html);
-      textPages = parser.getTextPages(text);
-      let pagesModels = [];
-      for (let i = 0; i < htmlPages.length; i++) {
-        pagesModels.push({
-          bookId: 1,
-          html: htmlPages[i],
-          text: textPages[i],
-          updatedAt: new Date(),
-          createdAt: new Date()
-        });
+
+      let pagesModels = getPagesModels(html, text, bookModel);
+      const bookPagesBasePath = jsonBasePath + bookModel.id + '/';
+      const bookPagesFile = bookPagesBasePath + 'pages.json';
+      if (!fs.existsSync(bookPagesBasePath)) {
+        fs.mkdirSync(bookPagesBasePath);
       }
+      fs.writeFileSync(bookPagesFile, JSON.stringify(pagesModels));
+
     }
   }
 }
@@ -60,7 +45,9 @@ function getAuthorModel(nextAuthorId, authorName, currentAuthors) {
   if (!authorModel) {
     authorModel = {
       id: nextAuthorId,
-      name: authorName
+      name: authorName,
+      createdAt: new Date(),
+      updatedAt: new Date()
     };
     currentAuthors.push(authorModel);
     nextAuthorId += 1;
@@ -69,6 +56,44 @@ function getAuthorModel(nextAuthorId, authorName, currentAuthors) {
   return authorModel;
 }
 
+function getBookModel(nextBookId, bookName, currentBooks, author) {
+  let bookModel = currentBooks.find((existentBook) => {
+    return bookName == existentBook.title && author.id == existentBook.authorId;
+  });
+
+  if (!bookModel) {
+    bookModel = {
+      id: nextBookId,
+      title: bookName,
+      authorId: author.id,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    };
+    currentBooks.push(bookModel);
+    nextBookId += 1;
+    fs.writeFileSync(booksFile, JSON.stringify(currentBooks));
+  }
+  return bookModel;
+}
+
+function getPagesModels(html, text, book) {
+  htmlPages = parser.getHtmlPages(html);
+  textPages = parser.getTextPages(text);
+  let pagesModels = [];
+  for (let i = 0; i < htmlPages.length; i++) {
+    pagesModels.push({
+      bookId: book.id,
+      html: htmlPages[i],
+      text: textPages[i],
+      updatedAt: new Date(),
+      createdAt: new Date()
+    });
+  }
+  return pagesModels;
+}
+
 function getNextId(models) {
   return models.length > 0 ? Math.max.apply(Math, models.map((model) => model.id)) + 1 : 1;
 }
+
+main();

@@ -1,23 +1,13 @@
 'use strict';
 
+const fs = require('fs');
+const sampleDataBasePath = __dirname + '/../../../sampleDataJson/';
+const authorsFile = sampleDataBasePath + 'authors.json';
+
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    /*
-      Add altering commands here.
-      Return a promise to correctly handle asynchronicity.
-
-      Example:
-      return queryInterface.bulkInsert('Person', [{
-        name: 'John Doe',
-        isBetaMember: false
-      }], {});
-    */
-    return queryInterface.bulkInsert('Authors', [{
-      id: 1,
-      name: 'Arthur Conan Doyle',
-      updatedAt: new Date(),
-      createdAt: new Date()
-    }], {});
+    const authors = JSON.parse(fs.readFileSync(authorsFile).toString());
+    return queryInterface.bulkInsert('Authors', authors, {});
   },
 
   down: (queryInterface, Sequelize) => {
