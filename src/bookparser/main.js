@@ -13,6 +13,9 @@ function main() {
   let nextAuthorId = getNextId(currentAuthors);
   for (const authorName of authorsNames) {
     const author = getAuthorModel(nextAuthorId, authorName, currentAuthors);
+    if (author.id == nextAuthorId) {
+      nextAuthorId += 1;
+    }
 
     const booksNames = fs.readdirSync(basePath + authorName);
 
@@ -20,12 +23,14 @@ function main() {
       let currentBooks = JSON.parse(fs.readFileSync(booksFile).toString());
       let nextBookId = getNextId(currentBooks);
 
-      let bookModel = getBookModel(nextBookId, bookName, currentBooks, author);
+      const bookModel = getBookModel(nextBookId, bookName, currentBooks, author);
+      if (bookModel.id == nextBookId) {
+        nextBookId += 1;
+      }
 
       const bookPath = basePath + authorName + '/' + bookName + '/';
       text = stripHeaders.stripHeaders(fs.readFileSync(bookPath + 'book.txt').toString());
       html = stripHeaders.stripHeaders(fs.readFileSync(bookPath + 'book.html').toString());
-
       let pagesModels = getPagesModels(html, text, bookModel);
       const bookPagesBasePath = jsonBasePath + bookModel.id + '/';
       const bookPagesFile = bookPagesBasePath + 'pages.json';
@@ -79,6 +84,20 @@ function getBookModel(nextBookId, bookName, currentBooks, author) {
 function getPagesModels(html, text, book) {
   htmlPages = parser.getHtmlPages(html);
   textPages = parser.getTextPages(text);
+  // if (book.title === 'The War of the Worlds') {
+  //   console.log(htmlPages.length);
+  //   console.log(textPages.length);
+  //   let htmlOut = '';
+  //   let textOut = '';
+  //   for (let index = 0; index < htmlPages.length; index++) {
+  //     textOut +=`\n--------------  index = ${index}  -----------`;
+  //     htmlOut +=`</br>--------------  index = ${index}  -----------`;
+  //     htmlOut += htmlPages[index];
+  //     textOut += textPages[index];
+  //   }
+  //   fs.writeFileSync(basePath + '/../test.html', htmlOut);
+  //   fs.writeFileSync(basePath + '/../test.txt', textOut);
+  // }
   let pagesModels = [];
   for (let i = 0; i < htmlPages.length; i++) {
     pagesModels.push({

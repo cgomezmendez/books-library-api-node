@@ -7,6 +7,7 @@ const authorsFile = sampleDataBasePath + 'authors.json';
 module.exports = {
   up: (queryInterface, Sequelize) => {
     const authors = JSON.parse(fs.readFileSync(authorsFile).toString());
+    console.log(authors);
     return queryInterface.bulkInsert('Authors', authors, {});
   },
 
