@@ -40,6 +40,7 @@ function setupRoutes(router) {
 
   router.route('/v1.0/book/:bookId')
     .get((req, res) => {
+      res.setHeader('Content-Type', util.ContentType.getContentTypeString(util.ContentType.json));
       const bookId = req.params.bookId;
       Book.findById(bookId, {
         include: [{
@@ -47,6 +48,16 @@ function setupRoutes(router) {
         }],
         subQuery: false,
       }).then((book) => {
+        if (!book) {
+          const error = {
+            error: {
+              code: 'BOOK_NOT_FOUND',
+              message: 'book with this id couldn\'t be found'
+            }
+          }
+          res.end(JSON.stringify(error));
+          return;
+        }
         const bookResult = {
           id: book.id,
           title: book.title,
@@ -55,7 +66,6 @@ function setupRoutes(router) {
             name: book.author.name
           }
         }
-        res.setHeader('Content-Type', util.ContentType.getContentTypeString(util.ContentType.json));
         res.end(JSON.stringify(bookResult));
       });
     });

@@ -20,13 +20,17 @@ function setupRoutes(router) {
       offset: req.skip,
       where: {
         bookId: bookId
-      }
+      },
+      order: [
+        'number'
+      ]
     });
     result.value = pagesResult.rows.map((page, _, __) => {
       return {
         id: page.id,
         html: page.html,
-        text: page.text
+        text: page.text,
+        number: page.number
       }
     });
     if (pagesResult.count - req.skip > req.top) {
@@ -38,13 +42,29 @@ function setupRoutes(router) {
 
   router.route('/v1.0/book/:bookId/page/:pageId')
     .get((req, res) => {
+      const bookId = req.params.bookId;
       const pageId = req.params.pageId;
-      Page.findById(pageId).then((page) => {
-        console.log(page);
+      Page.findOne({
+        where: {
+          bookId: bookId,
+          id: pageId
+        }
+      }).then((page) => {
+        if (!page) {
+          const error = {
+            error: {
+              code: 'PAGE_NOT_FOUND',
+              message: 'page with this id couldn\'t be found'
+            }
+          }
+          res.end(JSON.stringify(error));
+          return
+        }
         const pageResult = {
           id: page.id,
           text: page.text,
-          html: page.html
+          html: page.html,
+          number: page.number
         }
         res.setHeader('Content-Type', util.ContentType.getContentTypeString(util.ContentType.json));
         res.end(JSON.stringify(pageResult));
@@ -56,6 +76,16 @@ function setupRoutes(router) {
       const pageId = req.params.pageId;
       const format = req.params.format;
       Page.findById(pageId).then((page) => {
+        if (!page) {
+          const error = {
+            error: {
+              code: 'PAGE_NOT_FOUND',
+              message: 'page with this id couldn\'t be found'
+            }
+          }
+          res.end(JSON.stringify(error));
+          return
+        }
         let response = null;
         let contentType = null;
         switch (format) {

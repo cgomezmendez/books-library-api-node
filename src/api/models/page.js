@@ -16,6 +16,10 @@ let Page = db.define('page', {
   html: {
     type: Sequelize.TEXT,
     allowNull: true
+  },
+  number: {
+    type: Sequelize.INTEGER,
+    allowNull: false
   }
 })
 

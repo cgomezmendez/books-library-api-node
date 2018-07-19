@@ -16,7 +16,9 @@
   },
   "scripts": {
     "start-dev": "nodemon src/main.js",
-    "test": "mocha --recursive \"src/api/**/*.spec.js\""
+    "test": "mocha --recursive \"src/api/**/*.spec.js\"",
+    "migrate": "sequelize db:migrate",
+    "seed": "sequelize db:seed"
   },
   "dependencies": {
     "finalhandler": "^1.1.1",

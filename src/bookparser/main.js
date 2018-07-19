@@ -101,6 +101,7 @@ function getPagesModels(html, text, book) {
   let pagesModels = [];
   for (let i = 0; i < htmlPages.length; i++) {
     pagesModels.push({
+      number: i + 1,
       bookId: book.id,
       html: htmlPages[i],
       text: textPages[i],
