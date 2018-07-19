@@ -44,11 +44,8 @@ function setupRoutes(router) {
       Book.findById(bookId, {
         include: [{
           model: Author
-        }, {
-          model: Page
         }],
         subQuery: false,
-        limit: config.maxItemsPerPage
       }).then((book) => {
         const bookResult = {
           id: book.id,
@@ -56,14 +53,7 @@ function setupRoutes(router) {
           author: {
             id: book.author.id,
             name: book.author.name
-          },
-          pages: book.pages.map((page, _, __) => {
-            return {
-              id: page.id,
-              text: page.text,
-              html: page.html
-            }
-          })
+          }
         }
         res.setHeader('Content-Type', util.ContentType.getContentTypeString(util.ContentType.json));
         res.end(JSON.stringify(bookResult));

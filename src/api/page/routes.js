@@ -40,6 +40,7 @@ function setupRoutes(router) {
     .get((req, res) => {
       const pageId = req.params.pageId;
       Page.findById(pageId).then((page) => {
+        console.log(page);
         const pageResult = {
           id: page.id,
           text: page.text,

@@ -9,7 +9,8 @@ module.exports = {
     const books = JSON.parse(fs.readFileSync(booksFile).toString());
     for (const book of books) {
       const pagesFile = sampleDataBasePath + book.id + '/' + 'pages.json';
-      console.log(pagesFile);
+      const pages = JSON.parse(fs.readFileSync(pagesFile).toString());
+      return queryInterface.bulkInsert('Pages', pages, {});
     }
   },
 
